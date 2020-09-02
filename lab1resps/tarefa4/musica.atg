@@ -1,0 +1,25 @@
+COMPILER Musica
+
+CHARACTERS
+    digito = "0123456789".
+    ponto = "!?,.\"\'-:".
+    lMai = 'A'..'Z'.
+    lMin = 'a'..'z'.
+
+TOKENS
+    quebraLinha = '\n'.
+    palavra = (lMai|lMin|digito|ponto) {(lMai|lMin|digito|ponto)}.
+
+IGNORE '\r' + '\t'
+
+PRODUCTIONS
+
+    Musica = { Linha }.
+    Linha = Notas quebraLinha Letra quebraLinha.
+    Notas = {Nota}.
+    Letra = {palavra}.
+    Nota = "C" | "C#" | "Db" | "D" | "D#" | "Eb" | "E"
+         | "F" | "F#" | "Gb" | "G" | "G#" | "Ab" | "A"
+         | "A#" | "Bb" | "B".
+
+END Musica.

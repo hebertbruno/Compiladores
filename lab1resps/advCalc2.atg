@@ -1,0 +1,41 @@
+
+import java.io.*;
+import java.util.Stack;
+import java.math.*;
+import java.lang.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+
+COMPILER Calc
+
+
+
+
+CHARACTERS
+
+digito = "0123456789".
+
+TOKENS
+
+numero = digito {digito}.
+
+IGNORE  '\n' + '\r' + '\t'
+
+PRODUCTIONS
+
+Calc                                (. int n = 0; .)
+= {"calc"
+  Exp <out n>                       (. System.out.println(n); .)
+  } EOF.
+
+Exp <out int n>
+= numero                            (. n = Integer.parseInt(t.val); .)
+{ ( "+" numero                      (. n += Integer.parseInt(t.val); .)
+  | "-" numero                      (. n -= Integer.parseInt(t.val); .)
+  )
+}
+.
+
+END Calc.

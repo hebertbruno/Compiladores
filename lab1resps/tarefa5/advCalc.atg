@@ -1,0 +1,91 @@
+
+import java.io.*;
+import java.util.Stack;
+import java.math.*;
+import java.lang.*;
+
+
+COMPILER AdvCalc
+
+
+public void constants(String constant)
+{
+  if (constant.equals("pi"))
+  {    
+    System.out.println(Math.PI);
+  }
+
+  else if (constant.equals("e"))
+  {
+    System.out.println(Math.E);
+  }
+}
+
+public void primitives(String primitive, String argument)
+{
+  int i = Integer.parseInt(argument);
+  if (primitive.equals("sqrt"))
+  {    
+    System.out.println(Math.sqrt(i));
+  }
+
+  else if (primitive.equals("exp"))
+  {    
+    System.out.println(Math.exp(i));
+  }
+
+  else if (primitive.equals("ln"))
+  {    
+    System.out.println(Math.log(i));
+  }
+}
+
+
+
+
+
+
+CHARACTERS
+  digito = "0123456789".
+  lMais = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".
+  lMinus = "abcdefghijklmnopqrstuvwxyz".
+  letra = lMais + lMinus.
+
+TOKENS
+  numero	=  digito  {digito} ['.' digito {digito} ].	
+  ident   =	 letra	{digito | letra }.
+  
+  
+IGNORE '\r' + '\t' + '\n'	
+  
+PRODUCTIONS
+
+  AdvCalc = { Def | Exp }	EOF.	
+  Def  = "def" ident [ "(" ParamNames ")" ] "=" Exp.	
+  
+
+  ParamNames = ident { "," ident }.	
+
+  Exp = T { ( "+" T | "-­‐" T ) }.	
+  T = U { ( "*" U | "/" U | "%" U ) }.	
+  U = ( "-­‐" F | F ).
+  F = numero | VarOrFunc | IFExp | "(" Exp ")".
+
+  
+  VarOrFunc =                                                (. String constant = ""; String temp = ""; String argument = ""; .)
+      ident                                                  (. constant = t.val; .)  (. constants(constant); .)  (. temp = t.val; .)
+      [ "("                                                  
+      ParamNames                                             (. argument = t.val; .)  (. primitives(temp, argument); .)      
+      ")"                                                   
+      ]                                         
+      .
+
+
+
+  Params = Exp { "," Exp }.	
+  
+  IFExp = "if" ExpL "then" Exp "else" Exp.	
+  ExpL = Exp OpRel Exp.	
+  OpRel = ">" | ">=" | "<" | "<=" | "=" | "!=".	
+  
+END AdvCalc.

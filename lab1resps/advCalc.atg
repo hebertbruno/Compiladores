@@ -1,0 +1,39 @@
+import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+
+COMPILER AdvCalc
+
+
+CHARACTERS
+	digito = "0123456789".
+
+TOKENS
+	numero = digito { digito } .
+
+IGNORE '\n' + '\r' + '\t'
+
+PRODUCTIONS
+
+AdvCalc				(. int n = 0; .) /* "AdvCalc" nao retorna valor nenhum (void), mas dentro dela eh declarado um inteiro "n = 0"... */
+= 
+{
+	Exp <out n>		(. System.out.println(n); .) /* ... esse "n = 0" agora recebe o valor retornado por "Exp" ("n = Exp()")  */
+}
+EOF
+.
+
+Exp <out int n>		/* "<out int n>" eh o valor retornado por "Exp" */	
+= numero			(. n = Integer.parseInt(t.val); .)
+{
+ ( 
+ 	"+" numero		(. n += Integer.parseInt(t.val); .)
+ 	| 
+ 	"-" numero		(. n -= Integer.parseInt(t.val); .)
+ )
+}
+.
+
+END AdvCalc.

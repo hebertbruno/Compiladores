@@ -1,0 +1,40 @@
+COMPILER Simple2
+
+CHARACTERS
+    zero = "0".
+    nzero = "123456789".
+    digito = zero + nzero.
+    hexa = digito + "ABCDEFabcdef".
+    lMai = 'A'..'Z'.
+    lMin = 'a'..'z'.
+    letra = lMai + lMin.
+    lf = '\n'.
+
+TOKENS
+    numero = '0' ['x' hexa {hexa}] | nzero {digito}.
+    ident = letra {letra | digito}.
+
+COMMENTS FROM "/*" TO "*/" NESTED
+COMMENTS FROM "//" TO lf
+
+IGNORE '\r' + '\t' + '\n'
+
+PRODUCTIONS
+
+    Simple2	=	"program" ident "{"  {VarDecl} {FunDecl} "}".
+    FunDecl	=	"void" ident "(" ")" "{" { VarDecl | Cmd} "}".
+    VarDecl	=	Tipo ident {"," ident} ";".
+    Tipo	=	"int".
+    Cmd     =	ident ("=" Expr | "(" ")") ";"
+            |	"if" "(" Expr ")" Cmd ["else" Cmd]
+            |	"while" "(" Expr ")" Cmd
+            |	"read" ident ";"
+            |	"write" Expr ";"
+            |	"{" { VarDecl | Cmd } "}".
+    Expr	=	AriExpr [RelOp AriExpr].
+    AriExpr	=	Term {("+"|"-") Term}.
+    Term	=	Fator {("*"|"/"|"%") Fator}.
+    Fator	=	ident | numero | "-" Fator | "(" Expr ")".
+    RelOp	=	"==" | "<" | ">" | "<=" | ">=".
+
+END Simple2.

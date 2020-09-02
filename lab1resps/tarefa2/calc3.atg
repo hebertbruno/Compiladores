@@ -1,0 +1,19 @@
+COMPILER Calc3
+
+CHARACTERS
+    digito = "0123456789".
+
+TOKENS
+    numero = digito { digito } ["." { digito }].
+    fracao = "." digito {digito}.
+
+IGNORE '\n' + '\t' + '\r'
+
+PRODUCTIONS
+
+    Calc3 = { "calc" Exp }.
+    Exp = Termo { ("+" | "-") Termo } .
+    Termo = Fator { ("*" | "/") Fator } .
+    Fator = numero | fracao | "(" Exp ")".
+
+END Calc3.

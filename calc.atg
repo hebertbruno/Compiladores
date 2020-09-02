@@ -1,0 +1,65 @@
+import java.io.*;
+import java.util.Stack;
+import java.math.*;
+
+
+
+public void constants(String constant)
+{
+  if (constant == "pi")
+  {    
+    System.out.println(Math.PI);
+  }
+
+  else if (constant == "e")
+  {
+    System.out.println(Math.E);
+  }
+}
+
+
+
+
+COMPILER Calculadora
+
+CHARACTERS
+  digito = "0123456789".
+  lMais = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".
+  lMinus = "abcdefghijklmnopqrstuvwxyz".
+  letra = lMais + lMinus.
+
+Tokens	
+  numero	=  digito  {digito} ['.' digito {digito} ].	
+  ident   =	 letra	{digito | letra }.
+  
+  
+IGNORE '\r' + '\t' + '\n	
+  
+Productions
+
+  AdvCalc = { Def | Exp }	EOF.	
+  Def  = "def" ident [ "(" ParamNames ")" ] "=" Exp.	
+  
+
+  ParamNames = ident { "," ident }.	
+
+  Exp = T { ( "+" T | "-­‐" T ) }.	
+  T = U { ( "*" U | "/" U | "%" U ) }.	
+  U = ( "-­‐" F | F ).
+  F = numero | VarOrFunc | IFExp | "(" Exp ")".
+
+  
+  VarOrFunc =                                                   (. String constant = ""; .)
+      ident                                                     (. constant = t.val; .)         (. constants(constant); .)
+      [ "(" Params ")" ]                                         
+      .
+
+
+
+  Params = Exp { "," Exp }.	
+  
+  IFExp = "if" ExpL "then" Exp "else" Exp.	
+  ExpL = Exp OpRel Exp.	
+  OpRel = ">" | ">=" | "<" | "<=" | "=" | "!=".	
+  
+END Calculadora

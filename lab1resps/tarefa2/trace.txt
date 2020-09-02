@@ -1,0 +1,20 @@
+
+First & follow symbols:
+----------------------
+
+Calc
+first:   "calc" 
+follow:  EOF 
+
+Exp
+first:   numero 
+follow:  EOF 
+
+Termo
+first:   numero 
+follow:  EOF "+" 
+
+Fator
+first:   numero 
+follow:  EOF "+" "*" 
+

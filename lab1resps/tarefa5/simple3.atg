@@ -1,0 +1,46 @@
+COMPILER Simple3
+
+CHARACTERS
+    zero = "0".
+    nzero = "123456789".
+    digito = zero + nzero.
+    hexa = digito + "ABCDEFabcdef".
+    lMai = 'A'..'Z'.
+    lMin = 'a'..'z'.
+    letra = lMai + lMin.
+    lf = '\n'.
+
+TOKENS
+    numero = '0' ['x' hexa {hexa}] | nzero {digito}.
+    ident = letra {letra | digito}.
+
+COMMENTS FROM "/*" TO "*/" NESTED
+COMMENTS FROM "//" TO lf
+
+IGNORE '\r' + '\t' + '\n'
+
+PRODUCTIONS
+
+    Simple3	=	"program" ident "{"  {VarDecl} {FunDecl} "}".
+    FunDecl	=	"void" ident "(" ")" "{" { VarDecl | Cmd} "}".
+    VarDecl	=	Tipo ident {"," ident} ";".
+    Tipo	=	"int" | "bool".
+    Cmd     =	ident ("=" Expr | "(" ")" | "++" | "--") ";"
+            |	"for" ident "in" numero ".." numero Cmd
+            |	"if" "(" Expr ")" Cmd {"elif" "(" Expr ")" Cmd} ["else" Cmd]
+            |	"while" "(" Expr ")" Cmd
+            |	"do" Cmd "while" "(" Expr ")" ";"
+            |	"read" ident ";"
+            |	"write" Expr ";"
+            |	"break" ";"
+            |	"continue" ";"
+            |	"++" ident ";"
+            |	"--" ident ";"
+            |	"{" { VarDecl | Cmd } "}".
+    Expr	=	AriExpr [RelOp AriExpr].
+    AriExpr	=	Term {("+"|"-") Term}.
+    Term	=	Fator {("*"|"/"|"%") Fator}.
+    Fator	=	ident | numero | "true" | "false" | "-" Fator | "(" Expr ")".
+    RelOp	=	"==" | "<" | ">" | "<=" | ">=".
+
+END Simple3.

@@ -1,0 +1,33 @@
+COMPILER Familia
+
+CHARACTERS
+
+digito = "0123456789".
+lMais = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".
+lMinus = "abcdefghijklmnopqrstuvwxyz".
+
+TOKENS
+
+numero = digito {digito}.
+nomeProprio = lMais {(lMais | lMinus | '-' | '\'')}.
+palavra = lMinus {(lMais | lMinus)}.
+
+IGNORE '\r' + '\t' + '\n'
+
+PRODUCTIONS 
+
+Familia = Secao { Secao }.
+Secao = Sobrenome | Pais | Filhos | Avos | Netos | Outros.
+Sobrenome = "Sobrenome" ":" Nome.
+Pais = "Pais" ":" Nome {"," Nome}.
+Filhos = "Filhos" ":" Nome {"," Nome}.
+Avos = "Avos" ":" Nome {"," Nome}.
+Netos = "Netos" ":" Nome {"," Nome}.
+Outros = "Outros" ":" Item {"," Item}.
+Nome = nomeProprio {nomeProprio | palavra} Comentario.
+Comentario = ["(falecido)"] [ "[" Frase "]" ].
+Item = numero Frase.
+Frase = palavra {palavra | nomeProprio}.
+
+END Familia.
+
